@@ -3,36 +3,6 @@ Lab 1 - pierwszy raport statystyczny
 Dzmitry Navumau
 February, 2024
 
-Na dzisiejszych zajęciach zapoznamy się ze środowiskiem
-[Rstudio](https://rstudio.com/) oraz przygotujemy nasz pierwszy raport
-statystyczny z użyciem pakietu
-[Rmarkdown](https://rmarkdown.rstudio.com/).
-
-## Rstudio
-
-Uruchom program Rstudio. Jeśli korzystasz z własnego komputera,
-zainstaluj Rstudio korzystając z linka podanego powyżej. Na komputerach
-w laboratorium jest już zainstalowny.
-
-Rstudio jest zintegrowanym środowiskiem programistycznym (*integrated
-development environment, IDE*) służącym do przeprowadzania analiz
-statystycznych i tworzenia grafiki naukowej przy pomocy pakietu R.
-
-<figure>
-<img src="Outputs\rstudio_okno.png" alt="Okno Rstudio" />
-<figcaption aria-hidden="true"><em>Okno Rstudio</em></figcaption>
-</figure>
-
-Środowisko Rstudio składa się z następujących paneli:
-
-- *Edytor*, służący do pisania skryptów,
-- *Konsola*, służąca do wywoływania pojedyńczych poleceń,
-- *Lista zmiennych* utworzonych przez użytkownika,
-- Panel z wykresami.
-
-W zakładkach znajdują się dodatkowe okna, m.in. historia wywołanych
-poleceń i dokumentacja funkcji i pakietów.
-
 **Zadanie 1.** Utwórz nowy skrypt (*File -\> New File -\> R Script*) i
 zapisz go w wybranym katalogu. Następnie wklej do niego wymienione
 poniżej komendy (każdą w osobnej linijce), wywołaj je po kolei i
@@ -44,14 +14,14 @@ komend zostanie opisane w dalszej części kursu.
 - `data(iris)`, ładuje do pamięci dane o nazwie `iris`. Jest to jeden ze
   zbiorów danych które są dołączone do pakietu R. Zawiera pomiary
   kwiatów należących do trzech gatunków rodzaju *Iris* (pol. irys).
-- `help(iris)`, wyświetla informacje na temat danych `iris`.
+- `#help(iris)`, wyświetla informacje na temat danych `iris`.
 - `View(iris)`, wyświetla dane w oknie edytora.
 - `plot(iris$Sepal.Length, iris$Sepal.Width, pch=19, col=iris$Species)`,
   wykreśla zależność szerokości od długości płatków irysa i koloruje
   punkty w zależności od gatunku rośliny.
 - `legend('topright', legend=levels(iris$Species), fill=1:3)`, dodaje
   legendę do wykresu.
-- `help(mean)`, wyświetla dokumentację funkcji `mean`.
+- `#help(mean)`, wyświetla dokumentację funkcji `mean`.
 - `tapply(iris$Sepal.Length, iris$Species, mean)`, oblicza średnią
   długość płatka dla każdego gatunku. Na razie nie musicie przejmować
   się tym, jak dokładnie działa komenda `tapply()` - zostanie to
@@ -64,11 +34,11 @@ zainstaluje pakiet o nazwie `tidyverse`, rozszerzający podstawową
 funkcjonalność R. Instalacja może trochę potrwać. W tym czasie możesz
 przeczytać poniższą czytankę.
 
-**Rozwiązanie zadania 1: **
+**Rozwiązanie zadania 1:**
 
 ``` r
 data(iris)
-help(iris)
+#help(iris)
 View(iris)
 plot(iris$Sepal.Length, iris$Sepal.Width, pch=19, col=iris$Species)
 legend('topright', legend=levels(iris$Species), fill=1:3)
@@ -77,133 +47,22 @@ legend('topright', legend=levels(iris$Species), fill=1:3)
 ![](raport_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
 ``` r
-help(mean)
+#help(mean)
 tapply(iris$Sepal.Length, iris$Species, mean)
 ```
 
     ##     setosa versicolor  virginica 
     ##      5.006      5.936      6.588
 
-## Co to R i po co to?
-
-R jest jednym z najpopularniejszych programów do analizy danych (obok
-SAS, Microsoft Excel i języka Python). Jego główną zaletą jest to, że
-jest mocno przystosowany do szybkiego przeprowadzania prostych analiz z
-użyciem gotowych pakietów.
-
-Przystosowanie do konkretnego zadania oznacza jednocześnie, że R idzie
-na przekór większości konwencji spotykanych w innych językach
-programowania. Z tego powodu, o ile R jest bardzo wygodnym narzędziem do
-przeprowadzania rutynowych analiz, to implementowanie własnych
-algorytmów w R jest bardzo uciążliwe i mało wydajne obliczeniowo. Na
-kursie Statystycznej Analizy Danych nie będziemy prawie nigdy pisać
-własnych programów - niemal wszystkie zadania da się rozwiązać
-korzystając z gotowych funkcji i pakietów, które na ogół są napisane w
-językach FORTRAN lub C.
-
-Głównym konkurentem R jest język Python. Oba narzędzia oferują
-komplementarne możliwości. O ile R jest wyspecjalizowanym pakietem
-statystycznym, to język Python jest językiem ogólnego zastosowania. Z
-tego powodu dużo lepiej nadaje się do implementowania własnych,
-niestandardowych rozwiązań. Jest również dużo bardziej wydajny
-obliczeniowo - kod napisany w tym języku wywołuje się
-kilku(dziesięcio)krotnie szybciej niż analogiczny kod napisany w R. Z
-drugiej strony, przeprowadzenie typowej analizy i przygotowanie raportu
-statystycznego zajmuje w nim kilku(dziesięcio)krotnie więcej czasu.
-
-Zarówno R jak i Python są powszechnie używane w analizie danych i każdy,
-kto planuje w przyszłości pracować z danymi, powinien poznać oba te
-narzędzia przynajmniej w podstawowym stopniu i wiedzieć, kiedy stosować
-każde z nich.
-
-## Raporty statystyczne w Rmarkdown
-
-Rmarkdown Notebook służy do łączenia kodu w R z tekstem w języku
-naturalnym oraz wzorami w języku $\LaTeX$.
-
-<figure>
-<img src="Outputs\rmarkdown.png" alt="Notatnik Markdown" />
-<figcaption aria-hidden="true"><em>Notatnik Markdown</em></figcaption>
-</figure>
-
-Komórki z kodem w R zaczynają się od trzech apostrofów (chodzi o tzw.
-*backticks*, czyli te na klawiszu z tyldą) i litery r w nawiasach
-klamrowych, a kończą trzema apostrofami.  
-Pominięcie litery r oznacza wyróżnioną komórkę z tekstem,
-
-    taką jak ta.
-
-**Zadanie 2.** Utwórz nowy notatnik markdown z domyślnymi ustawieniami
-(*File -\> New File -\> R Markdown*) i zapisz go w wybranym katalogu.
-Utwórz nową komórkę z kodem w R i wklej do niej następujące komendy:
-
-- `data(iris)`
-- `head(iris)`, wyświetla kilka pierwszych wierszy tabeli `iris`.
-
-Utwórz kolejną komórkę z kodem i wklej do niej wybrane komendy z
-Zadania 1. Skompiluj notatnik (przycisk `Knit` na górze okna edytora) i
-obejrzyj wynik.  
-Jeśli pakiet `rmarkdown` nie jest zainstalowny, to powinien zainstalować
-się automatycznie. Może to trochę potrwać. W tym czasie możesz zapoznać
-się ze składnią języka Markdown korzystając z [tej
-ściągawki](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
-lub dowolnych innych materiałów wyszukanych samodzielnie w internecie.
-
-## Obsługa danych w R
-
-Podstawowym typem danych w R jest tzw. `data frame`, czyli **ramka
-danych**. Przykładem takiej zmiennej są dane `iris`. Poszczególne
-komórki wybieramy za pomocą nawiasów kwadratowych:
-
-- `x <- iris[1,2]` przypisuje zmiennej `x` wartość z pierwszego wiersza
-  i drugiej kolumny. Uwaga: w przeciwieństwie do wielu języków
-  programowania, w R numerację zaczynamy od 1, a nie od 0.
-- `x <- iris[1,]` przypisuje zmiennej `x` pierwszy wiersz.
-- `x <- iris[,1]` przypisuje pierwszą kolumnę.
-- `x <- iris$Sepal.Length` przypisuje kolumnę o nazwie `Sepal.Length`.
-  Uwaga: nie stosujemy cudzysłowu przy nazwie kolumny.
-
-Analogicznie przypisujemy wartości do komórek, wierszy lub kolumn:
-
-- `iris[1,2] <- 1` przypisze $1$ do komórki w pierwszym wierszu i
-  drugiej kolumnie
-- `iris$New_column <- 2` utworzy nową kolumnę o nazwie `New_column`,
-  wypełnioną dwójkami.
-
-Liczby wierszy i kolumn tabeli są wyświetlone w oknie z listą zmiennych.
-Możemy również sprawdzić je za pomocą komend `nrow` oraz `ncol`. Nazwy
-kolumn możemy sprawdzić komendą `colnames()`.
-
-Kolejny ważny typ danych to **wektor liczb zmiennoprzecinkowych**.  
-Przykładem takich wektorów są pierwsze cztery kolumny danych `iris`.  
-Nowy wektor długości $n$ wypełniony zerami tworzymy komendą
-`x <- numeric(n)`.  
-Kilka wektorów $x_1, x_2, x_3$ łączymy w nowy wektor $y$ za pomocą
-komendy `c()` (skrót od *concatenate*): `y <- c(x1, x2, x3)`.  
-Długość wektora $x$ sprawdzamy komendą `length(x)`.  
-Wektory można do siebie dodawać: `z <- x+y` oraz mnożyć: `z <- x*y`.  
-Mnożenie odbywa się po współrzędnych.
-
-**Zadanie 3.** Dołącz do danych `iris` nową kolumnę o nazwie
+**Zadanie 2.** Dołącz do danych `iris` nową kolumnę o nazwie
 `Sepal.Area`, równą iloczynowi kolumn `Sepal.Length` oraz `Sepal.Width`.
-**Rozwiazanie Zadania 3: **
+**Rozwiazanie Zadania 2:**
 
 ``` r
 iris$Sepal.Area <- iris$Sepal.Length * iris$Sepal.Width
 ```
 
-Innym typem wektora jest **wektor całkowitoliczbowy**.  
-Wektor złożony z kolejnych liczb całkowitych od $n$ do $m$ (włącznie)
-tworzymy następująco: `x <- n:m`.  
-Tego typu wektor możemy wykorzystać do wybrania kilku wierszy tabeli:
-`x <- iris[5:10, ]`.  
-Jeśli chcemy wybrać kilka fragmentów tabeli, możemy wykorzystać komendę
-`c()`.  
-Na przykład, `x <- iris[c(1:10, 20:30), ]` przypisze do zmiennej `x`
-nową ramkę danych, złożoną z wierszy o numerach od 1 do 10 oraz od 20 do
-30.
-
-**Zadanie 4.** Utwórz wektor kolejnych liczb naturalnych od 1 do 1000
+**Zadanie 3.** Utwórz wektor kolejnych liczb naturalnych od 1 do 1000
 włącznie. Następnie:
 
 - Pomnóż każdy element przez 2.
@@ -212,7 +71,7 @@ włącznie. Następnie:
 - Dodaj elementy -2, -1 na początku wektora oraz 2001, 2002 na końcu.
 - Sprawdź długość nowego wektora.
 
-**Rozwiazanie zadania 4: **
+**Rozwiazanie zadania 3:**
 
 ``` r
 numbers <- 1:1000
@@ -223,36 +82,6 @@ length(numbers)
 ```
 
     ## [1] 1004
-
-Bardziej złożone sekwencje liczb możemy tworzyć komendą `seq()`.  
-Jej działanie możesz sprawdzić wpisując w konsolę komendę `help(seq)`.
-Wyświetli ona dokumentację funkcji `seq` w miejscu panelu z wykresami.
-
-Kolejnym ważnym typem zmiennej jest typ ***factor***, czyli tzw. typ
-wyliczeniowy. Jest to wektor obserwacji z ustalonego zbioru wartości,
-tzw. poziomów.  
-Przykładem takiej zmiennej jest piąta kolumna tabeli `iris`.  
-Jest to factor o trzech poziomach: `setosa`, `versicolor` oraz
-`virginica`.  
-Ważną cechą factorów jest to, że pamiętają, jakiego typu poziomy mogą w
-nich wystąpić.  
-Widać to na przykład po wybraniu pierwszych trzech wierszy z kolumny
-`Species`:
-
-``` r
-trzy_poziomy <- iris[1:3,5]
-trzy_poziomy
-```
-
-    ## [1] setosa setosa setosa
-    ## Levels: setosa versicolor virginica
-
-Pomimo tego, że w nowym wektorze występują jedynie gatunki `setosa`,
-zmienna `trzy_poziomy` nadal pamięta pierwotny zbiór gatunków Jak się
-niedługo okaże, jest to niezwykle pomocne w analizie danych.
-
-R posiada jeszcze kilka typów zmiennych, które, w zależności od potrzeb,
-będą pojawiać się na kolejnych zajęciach.
 
 ## Biblioteka ggplot2
 
@@ -293,7 +122,7 @@ wykresie punktowym w następujący sposób:
 ggplot(iris) + geom_point(aes(x=Sepal.Length, y=Sepal.Width, col=Species))
 ```
 
-![](raport_files/figure-gfm/unnamed-chunk-6-1.png)<!-- --> Ważne jest,
+![](raport_files/figure-gfm/unnamed-chunk-5-1.png)<!-- --> Ważne jest,
 żeby pamiętać, że w estetykach podajemy nazwy zmiennych bez cudzysłowu.
 Kolor punktów określamy podając estetykę `col`, w której wystarczy
 określić, do jakiej grupy należy każda obserwacja. Kolory zostaną
@@ -314,7 +143,7 @@ ggplot() + geom_point(aes(x=Sepal.Length, y=Sepal.Width, col=Species), data=iris
 ggplot(iris) + geom_point(aes(x=Sepal.Length, y=Sepal.Width, col=Species)) + theme_minimal()
 ```
 
-![](raport_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](raport_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 **Zadanie 5.** Utwórz nową kolumnę z kodem w R w notatniku z
 poprzedniego zadania. Załaduj dane o nazwie `DNase`. Wybierz co drugi
@@ -338,7 +167,7 @@ ggplot(filtered_DNase, aes(x = conc, y = density, colour = factor(Run))) +
   labs(colour = "Run")
 ```
 
-![](raport_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](raport_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 **Uwaga dotycząca funkcji qplot.** Szukając informacji dotyczących
 biblioteki ggplot2 w internecie możecie natrafić na funkcję `qplot`.
@@ -350,7 +179,7 @@ będziemy z niej korzystać.
 ## Zadania dodatkowe
 
 **Zadanie 1.** Funkcja `rnorm()` służy do losowania obserwacji z
-rozkładu normalnego. Wywołanie komendy `help(rnorm)` wyświetli jej
+rozkładu normalnego. Wywołanie komendy `#help(rnorm)` wyświetli jej
 dokumentację, wraz z opisem kilku innych funkcji związanych z rozkładem
 normalnym. Celem tego zadania jest porównanie gęstości rozkładu
 normalnego z histogramem wylosowanych wartości.
@@ -379,10 +208,14 @@ normalnego z histogramem wylosowanych wartości.
   dane do stworzenia nowej warstwy możesz podać bezpośrednio w
   geometrii: `geom_line(aes(...), data=d)`.
 
-**Rozwiązanie zadania 1.**
+Wywołaj swój kod kilkukrotnie i zobacz, w jaki sposób zmienia się
+histogram.  
+Wypróbuj również kilka wartości parametrów `mean` oraz `sd`.
+
+**Rozwiązanie zadania dodatkowego 1.**
 
 ``` r
-help(rnorm)
+#help(rnorm)
 X <- rnorm(200, mean = 4, sd = 2)
 X <- data.frame(X)
 
@@ -392,9 +225,15 @@ histogram <- ggplot(X, aes(x = X, y = ..density..)) +
 histogram
 ```
 
+    ## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+    ## ℹ Please use `after_stat(density)` instead.
+    ## This warning is displayed once every 8 hours.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+    ## generated.
+
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](raport_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](raport_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 ``` r
 x <- seq(-5, 15, by = 0.2)
@@ -409,8 +248,82 @@ histogram_vs_gestosc
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](raport_files/figure-gfm/unnamed-chunk-11-2.png)<!-- -->
+![](raport_files/figure-gfm/unnamed-chunk-10-2.png)<!-- -->
 
-Wywołaj swój kod kilkukrotnie i zobacz, w jaki sposób zmienia się
-histogram.  
-Wypróbuj również kilka wartości parametrów `mean` oraz `sd`.
+**Pomocnicza informacja**
+
+## Obsługa danych w R
+
+Podstawowym typem danych w R jest tzw. `data frame`, czyli **ramka
+danych**. Przykładem takiej zmiennej są dane `iris`. Poszczególne
+komórki wybieramy za pomocą nawiasów kwadratowych:
+
+- `x <- iris[1,2]` przypisuje zmiennej `x` wartość z pierwszego wiersza
+  i drugiej kolumny. Uwaga: w przeciwieństwie do wielu języków
+  programowania, w R numerację zaczynamy od 1, a nie od 0.
+- `x <- iris[1,]` przypisuje zmiennej `x` pierwszy wiersz.
+- `x <- iris[,1]` przypisuje pierwszą kolumnę.
+- `x <- iris$Sepal.Length` przypisuje kolumnę o nazwie `Sepal.Length`.
+  Uwaga: nie stosujemy cudzysłowu przy nazwie kolumny.
+
+Analogicznie przypisujemy wartości do komórek, wierszy lub kolumn:
+
+- `iris[1,2] <- 1` przypisze $1$ do komórki w pierwszym wierszu i
+  drugiej kolumnie
+- `iris$New_column <- 2` utworzy nową kolumnę o nazwie `New_column`,
+  wypełnioną dwójkami.
+
+Liczby wierszy i kolumn tabeli są wyświetlone w oknie z listą zmiennych.
+Możemy również sprawdzić je za pomocą komend `nrow` oraz `ncol`. Nazwy
+kolumn możemy sprawdzić komendą `colnames()`.
+
+Kolejny ważny typ danych to **wektor liczb zmiennoprzecinkowych**.  
+Przykładem takich wektorów są pierwsze cztery kolumny danych `iris`.  
+Nowy wektor długości $n$ wypełniony zerami tworzymy komendą
+`x <- numeric(n)`.  
+Kilka wektorów $x_1, x_2, x_3$ łączymy w nowy wektor $y$ za pomocą
+komendy `c()` (skrót od *concatenate*): `y <- c(x1, x2, x3)`.  
+Długość wektora $x$ sprawdzamy komendą `length(x)`.  
+Wektory można do siebie dodawać: `z <- x+y` oraz mnożyć: `z <- x*y`.  
+Mnożenie odbywa się po współrzędnych.
+
+Innym typem wektora jest **wektor całkowitoliczbowy**.  
+Wektor złożony z kolejnych liczb całkowitych od $n$ do $m$ (włącznie)
+tworzymy następująco: `x <- n:m`.  
+Tego typu wektor możemy wykorzystać do wybrania kilku wierszy tabeli:
+`x <- iris[5:10, ]`.  
+Jeśli chcemy wybrać kilka fragmentów tabeli, możemy wykorzystać komendę
+`c()`.  
+Na przykład, `x <- iris[c(1:10, 20:30), ]` przypisze do zmiennej `x`
+nową ramkę danych, złożoną z wierszy o numerach od 1 do 10 oraz od 20 do
+30.
+
+Bardziej złożone sekwencje liczb możemy tworzyć komendą `seq()`.  
+Jej działanie możesz sprawdzić wpisując w konsolę komendę `#help(seq)`.
+Wyświetli ona dokumentację funkcji `seq` w miejscu panelu z wykresami.
+
+Kolejnym ważnym typem zmiennej jest typ ***factor***, czyli tzw. typ
+wyliczeniowy. Jest to wektor obserwacji z ustalonego zbioru wartości,
+tzw. poziomów.  
+Przykładem takiej zmiennej jest piąta kolumna tabeli `iris`.  
+Jest to factor o trzech poziomach: `setosa`, `versicolor` oraz
+`virginica`.  
+Ważną cechą factorów jest to, że pamiętają, jakiego typu poziomy mogą w
+nich wystąpić.  
+Widać to na przykład po wybraniu pierwszych trzech wierszy z kolumny
+`Species`:
+
+``` r
+trzy_poziomy <- iris[1:3,5]
+trzy_poziomy
+```
+
+    ## [1] setosa setosa setosa
+    ## Levels: setosa versicolor virginica
+
+Pomimo tego, że w nowym wektorze występują jedynie gatunki `setosa`,
+zmienna `trzy_poziomy` nadal pamięta pierwotny zbiór gatunków Jak się
+niedługo okaże, jest to niezwykle pomocne w analizie danych.
+
+R posiada jeszcze kilka typów zmiennych, które, w zależności od potrzeb,
+będą pojawiać się na kolejnych zajęciach.
