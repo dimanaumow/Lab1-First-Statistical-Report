@@ -19,7 +19,7 @@ Uruchom program Rstudio. Jeśli korzystasz z własnego komputera, zainstaluj Rst
 
 Rstudio jest zintegrowanym środowiskiem programistycznym (*integrated development environment, IDE*) służącym do przeprowadzania analiz statystycznych i tworzenia grafiki naukowej przy pomocy pakietu R.  
 
-![*Okno Rstudio*](rstudio_okno.png)
+![*Okno Rstudio*](Outputs\rstudio_okno.png)
 
 Środowisko Rstudio składa się z następujących paneli:
 
@@ -75,7 +75,7 @@ Zarówno R jak i Python są powszechnie używane w analizie danych i każdy, kto
 
 Rmarkdown Notebook służy do łączenia kodu w R z tekstem w języku naturalnym oraz wzorami w języku $\LaTeX$.
 
-![*Notatnik Markdown*](rmarkdown.png)
+![*Notatnik Markdown*](Outputs\rmarkdown.png)
 
 Komórki z kodem w R zaczynają się od trzech apostrofów (chodzi o tzw. *backticks*, czyli te na klawiszu z tyldą) i litery r w nawiasach klamrowych, a kończą trzema apostrofami.  
 Pominięcie litery r oznacza wyróżnioną komórkę z tekstem, 
