@@ -18,10 +18,6 @@ Rstudio jest zintegrowanym środowiskiem programistycznym (*integrated
 development environment, IDE*) służącym do przeprowadzania analiz
 statystycznych i tworzenia grafiki naukowej przy pomocy pakietu R.
 
-<figure>
-<img src="Outputs\rstudio_okno.png" alt="Okno Rstudio" />
-<figcaption aria-hidden="true"><em>Okno Rstudio</em></figcaption>
-</figure>
 
 Środowisko Rstudio składa się z następujących paneli:
 
@@ -120,11 +116,6 @@ każde z nich.
 
 Rmarkdown Notebook służy do łączenia kodu w R z tekstem w języku
 naturalnym oraz wzorami w języku $\LaTeX$.
-
-<figure>
-<img src="Outputs\rmarkdown.png" alt="Notatnik Markdown" />
-<figcaption aria-hidden="true"><em>Notatnik Markdown</em></figcaption>
-</figure>
 
 Komórki z kodem w R zaczynają się od trzech apostrofów (chodzi o tzw.
 *backticks*, czyli te na klawiszu z tyldą) i litery r w nawiasach
