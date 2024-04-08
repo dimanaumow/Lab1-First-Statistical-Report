@@ -1,3 +1,4 @@
+[LOOK](Outputs/raport.html)
 ---
 title: "Lab 1 - pierwszy raport statystyczny"
 author: "Dzmitry Navumau"
