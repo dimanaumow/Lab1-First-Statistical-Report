@@ -9,19 +9,7 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-**Zadanie 1.** Utwórz nowy skrypt (*File -> New File -> R Script*) i zapisz go w wybranym katalogu. Następnie wklej do niego wymienione poniżej komendy (każdą w osobnej linijce), wywołaj je po kolei i przyjrzyj się wynikom. Pojedynczą linijkę skryptu możesz wywołać w konsoli wciskając `Ctrl+Enter`, a cały skrypt klikajac przycisk `Source` w prawym górnym rogu okna edytora. Dokładne działanie poszczególnych komend zostanie opisane w dalszej części kursu. 
-
-  - `data(iris)`, ładuje do pamięci dane o nazwie `iris`. Jest to jeden ze zbiorów danych które są dołączone do pakietu R. Zawiera pomiary kwiatów należących do trzech gatunków rodzaju *Iris* (pol. irys).
-  - `#help(iris)`, wyświetla informacje na temat danych `iris`.
-  - `View(iris)`, wyświetla dane w oknie edytora. 
-  - `plot(iris$Sepal.Length, iris$Sepal.Width, pch=19, col=iris$Species)`, wykreśla zależność szerokości od długości płatków irysa i koloruje punkty w zależności od gatunku rośliny.
-  - `legend('topright', legend=levels(iris$Species), fill=1:3)`, dodaje legendę do wykresu.
-  - `#help(mean)`, wyświetla dokumentację funkcji `mean`.
-  - `tapply(iris$Sepal.Length, iris$Species, mean)`, oblicza średnią długość płatka dla każdego gatunku. Na razie nie musicie przejmować się tym, jak dokładnie działa komenda `tapply()` - zostanie to wyjaśnione w przyszłym tygodniu. Ogólnie rzecz biorąc służy ona do przyłożenia jakiejś funkcji, na przykład `mean()`, do kilku grup obserwacji jednocześnie.
-  
-Teraz wywołaj w konsoli komendę `install.packages('tidyverse')`, która zainstaluje pakiet o nazwie `tidyverse`, rozszerzający podstawową funkcjonalność R. Instalacja może trochę potrwać. W tym czasie możesz przeczytać poniższą czytankę.
-
-**Rozwiązanie zadania 1:**
+**Zadanie 1.** 
 ```{r}
 data(iris)
 #help(iris)
@@ -32,182 +20,74 @@ legend('topright', legend=levels(iris$Species), fill=1:3)
 tapply(iris$Sepal.Length, iris$Species, mean)
 ```
 
-**Zadanie 2.** Dołącz do danych `iris` nową kolumnę o nazwie `Sepal.Area`, równą iloczynowi kolumn `Sepal.Length` oraz `Sepal.Width`.
-**Rozwiazanie Zadania 2:**
+
+**Zadanie 2.** Dołączamy do danych `iris` nową kolumnę o nazwie `Sepal.Area`, równą iloczynowi kolumn `Sepal.Length` oraz `Sepal.Width`.
 ```{r}
 iris$Sepal.Area <- iris$Sepal.Length * iris$Sepal.Width
 ```
 
-   
 
-**Zadanie 3.** Utwórz wektor kolejnych liczb naturalnych od 1 do 1000 włącznie. Następnie:
-
-  * Pomnóż każdy element przez 2.
-  * Zmień co piąty element na 0, korzystając z operatora `:` i działań arytmetycznych.
-  * Dodaj elementy -2, -1 na początku wektora oraz 2001, 2002 na końcu.
-  * Sprawdź długość nowego wektora.
-
-**Rozwiazanie zadania 3:**
+**Zadanie 3.** Tworzymy wektor kolejnych liczb naturalnych od 1 do 1000 włącznie.
 ```{r}
 numbers <- 1:1000
+```
+ 
+mnożymy każdy element przez 2.
+```{r}
 numbers <- numbers * 2
+```
+
+Zmieniamy co piąty element na 0
+```{r}
 numbers[seq(5, length(numbers), by = 5)] <- 0
+```
+
+Dodaj elementy -2, -1 na początku wektora oraz 2001, 2002 na końcu.
+```{r}
 numbers <- c(-2, -1, numbers, 2001, 2002)
 length(numbers)
 ```
 
-## Biblioteka ggplot2
 
-Biblioteka `ggplot2` służy do przygotowywania grafiki naukowej w R, i jest jedną z najmocniejszych stron tego języka. 
-Wszystkie wykresy na SAD powinniście przygotowywać z użyciem tej biblioteki.
-Przed użyciem bibliotekę należy załadować używając komendy `library(ggplot2)`.
-```{r, include=F}
-library(ggplot2)
-```
-
-Sposób przygotowywania wykresów z użyciem ggplot2 jest dość nietypowy, ale stosunkowo intuicyjny. 
-Na początku tworzymy pusty wykres komendą `ggplot()`. 
-Na tym etapie możemy od razu określić, z jakich danych chcemy korzystać, pisząc np. `ggplot(iris)`.  
-Dane muszą być typu ***data frame***. Jest to (niemalże) jedyny typ danych obsługiwany przez tę bibliotekę.  
-Częstym źródłem błędów przy obsłudze biblioteki ggplot2 jest próba stworzenia wykresu z wektorów liczb zmiennoprzecinkowych.
-
-Na pusty wykres nakładamy kolejne warstwy, takie jak wykres punktowy, liniowy, histogram itd. 
-Każdą taką warstwę tworzymy osobną komendą, zaczynającą się na ogół od `geom` lub od `stat`.
-Na przykład, `geom_point()` to warstwa zawierająca wykres punktowy.
-Wszystkie geometrie (czyli typy wykresów) są opisane w dokumentacji pakietu `ggplot2` na [tej stronie](https://ggplot2.tidyverse.org/reference/).  
-
-Dodanie nowej warstwy do pustego wykresu wykonujemy poprzez dodanie nowej warstwy do pustego wykresu: `ggplot() + geom_point()`.  
-Na końcu musimy jeszcze określić, co konkretnie chcemy wykreślić na wykresie. 
-W `ggplot2` robimy to za pomocą tzw. *estetyk* (*aesthetics*), które określają, w jaki sposób dane mają być przekształcone na własności wizualne na wykresie. Estetyki określają m.in. położenie na osi x i na osi y, kolor, rozmiar i wypełnienie punktów.
-Możemy określić je globalnie, w funkcji `ggplot()`, lub dla każdej warstwy z osobna.
-
-Zależność szerokości od długości płatków irysów możemy przedstawić na wykresie punktowym w następujący sposób:
-```{r}
-ggplot(iris) + geom_point(aes(x=Sepal.Length, y=Sepal.Width, col=Species))
-```
-Ważne jest, żeby pamiętać, że w estetykach podajemy nazwy zmiennych bez cudzysłowu. Kolor punktów określamy podając estetykę `col`, w której wystarczy określić, do jakiej grupy należy każda obserwacja. Kolory zostaną dobrane automatycznie.  
-
-Dane, z jakich tworzymy wykres, możemy określić albo w funkcji `ggplot()`, albo bezpośrednio w geometrii, na przykład tak:  
-```{r, eval=F}
-ggplot() + geom_point(aes(x=Sepal.Length, y=Sepal.Width, col=Species), data=iris)
-```
-
-Żeby zmodyfikować ogólny wygląd wykresu, możemy na końcu dodać tzw. *temat* (ang. *theme*). Do grafiki naukowej szczególnie nadaje się `theme_minimal()`:
-```{r}
-ggplot(iris) + geom_point(aes(x=Sepal.Length, y=Sepal.Width, col=Species)) + theme_minimal()
-```
-
-**Zadanie 5.** Utwórz nową kolumnę z kodem w R w notatniku z poprzedniego zadania.
-Załaduj dane o nazwie `DNase`. Wybierz co drugi wiersz tabeli.  Korzystając z biblioteki `ggplot2` oraz geometrii `geom_line`, przedstaw zależność zmiennej `density` od zmiennej `conc` na wykresie liniowym. Dodaj kolejną warstwę z wykresem punktowym obrazującym tę zależność. Zmodyfikuj kształt punktów w wybrany przez siebie sposób (patrz [dokumentacja](https://ggplot2.tidyverse.org/reference/geom_point.html) funkcji geom_point). 
-
-**Rozwiązanie zadanie 5: **
+**Zadanie 4.**
+Ladujemy dane o nazwie `DNase`, wybieramy co drugi wiersz tabeli. 
 ```{r}
 data(DNase, package = "datasets")
 filtered_DNase <- DNase[seq(1, nrow(DNase), by = 2), ]
+```
 
+Przedstaw zależność zmiennej `density` od zmiennej `conc` na wykresie liniowym.
+
+```{r warning = FALSE}
+library(ggplot2)
 ggplot(filtered_DNase, aes(x = conc, y = density, colour = factor(Run))) +
   geom_line() +
   geom_point(shape = 19) +
   labs(colour = "Run")
 ```
 
-
-
-**Uwaga dotycząca funkcji qplot.** Szukając informacji dotyczących biblioteki ggplot2 w internecie możecie natrafić na funkcję `qplot`. Jest to funkcja służąca do szybkiego tworzenia prostych wykresów. Sposób użycia tej funkcji jest jednak zupełnie inny niż w przypadku standardowych funkcji z biblioteki ggplot2, dlatego na razie nie będziemy z niej korzystać. 
-
-
-## Zadania dodatkowe
-
-```{r, include=F}
-# Te zadania są do zrobienia jeśli zostanie dodatkowy czas na laboratoriach lub  do domu.
-```
-
-**Zadanie 1.** Funkcja `rnorm()` służy do losowania obserwacji z rozkładu normalnego. Wywołanie komendy `#help(rnorm)` wyświetli jej dokumentację, wraz z opisem kilku innych funkcji związanych z rozkładem normalnym. Celem tego zadania jest porównanie gęstości rozkładu normalnego z histogramem wylosowanych wartości. 
-
-* Utwórz wektor `X` zawierający 200 obserwacji wylosowanych z rozkładu normalnego z parametrami `mean=4`, `sd=2`.
-* Przekształć wylosowany wektor w ramkę danych: `X <- data.frame(X)`. 
-* Utwórz histogram wylosowanych wartości korzystając z biblioteki ggplot2 i geometrii `geom_histogram`. Dokumentację i przykłady zastosowania tej geometrii wyszukaj w internecie. Co znajduje się na osi OY utworzonego wykresu?
-* Spraw, żeby na osi OY znalazła się częstość występowania danej wartości. Można to zrobić wykorzystując specjalną estetykę: `aes(y=..density..)`. 
-* Utwórz wektor zmiennoprzecinkowy `x`, zawierający ciąg liczb od -5 do 15 z odstępem 0.2 (tak, żeby długość wektora `x` wynosiła 101). Możesz wykorzystać funkcję `seq`.
-* Utwórz wektor `y`, zawierający wartość gęstości rozkładu normalnego z parametrami `mean=4`, `sd=2` w punktach wektora `x`: `y <- dnorm(x, 4, 2)`. Większość funkcji w R, w tym `dnorm`, przyjmuje jako argument całe wektory i zwraca wynik obliczony dla każdego elementu wektora.
-* Połącz wektory `x` i `y` w jedną ramkę danych o nazwie `d`.
-* Do histogramu utworzonego w poprzednich punktach dodaj warstwę zawierającą wykres liniowy obrazujący obliczoną gęstość. Pamiętaj, że dane do stworzenia nowej warstwy możesz podać bezpośrednio w geometrii: `geom_line(aes(...), data=d)`. 
-
-Wywołaj swój kod kilkukrotnie i zobacz, w jaki sposób zmienia się histogram.  
-Wypróbuj również kilka wartości parametrów `mean` oraz `sd`.
-
-**Rozwiązanie zadania dodatkowego 1.**
+**Zadanie 5(dodatkowe).**
+Tworzymy wektor `X` zawierający 200 obserwacji wylosowanych z rozkładu normalnego z parametrami `mean=4`, `sd=2`. Przekształcamy wylosowany wektor w ramkę danych: 
 ```{r}
-#help(rnorm)
 X <- rnorm(200, mean = 4, sd = 2)
 X <- data.frame(X)
+```
 
+Zwizualizujmy wygenerowane dane na histogramie: 
+
+```{r warning=FALSE}
 histogram <- ggplot(X, aes(x = X, y = ..density..)) +
   geom_histogram() +
   labs(title = "Histogram of X", x = "X", y = "density")
 histogram
+```
+
+
+```{r}
 x <- seq(-5, 15, by = 0.2)
 y <- dnorm(x, 4, 2)
 d <- data.frame(x, y)
 
-
-
 histogram_vs_gestosc <- histogram + geom_line(aes(x = x, y = y), data=d)
 histogram_vs_gestosc
 ```
-
- 
-**Pomocnicza informacja**
-
-## Obsługa danych w R
-
-Podstawowym typem danych w R jest tzw. `data frame`, czyli **ramka danych**.
-Przykładem takiej zmiennej są dane `iris`. 
-Poszczególne komórki wybieramy za pomocą nawiasów kwadratowych:
-
-  * `x <- iris[1,2]` przypisuje zmiennej `x` wartość z pierwszego wiersza i drugiej kolumny. Uwaga: w przeciwieństwie do wielu języków programowania, w R numerację zaczynamy od 1, a nie od 0.
-  * `x <- iris[1,]` przypisuje zmiennej `x` pierwszy wiersz.
-  * `x <- iris[,1]` przypisuje pierwszą kolumnę.
-  * `x <- iris$Sepal.Length` przypisuje kolumnę o nazwie `Sepal.Length`. Uwaga: nie stosujemy cudzysłowu przy nazwie kolumny.
-
-Analogicznie przypisujemy wartości do komórek, wierszy lub kolumn:
-
-  * `iris[1,2] <- 1` przypisze $1$ do komórki w pierwszym wierszu i drugiej kolumnie
-  * `iris$New_column <- 2` utworzy nową kolumnę o nazwie `New_column`, wypełnioną dwójkami.
-  
-Liczby wierszy i kolumn tabeli są wyświetlone w oknie z listą zmiennych. 
-Możemy również sprawdzić je za pomocą komend `nrow` oraz `ncol`.
-Nazwy kolumn możemy sprawdzić komendą `colnames()`.
-
-Kolejny ważny typ danych to **wektor liczb zmiennoprzecinkowych**.  
-Przykładem takich wektorów są pierwsze cztery kolumny danych `iris`.  
-Nowy wektor długości $n$ wypełniony zerami tworzymy komendą `x <- numeric(n)`.  
-Kilka wektorów $x_1, x_2, x_3$ łączymy w nowy wektor $y$ za pomocą komendy `c()` (skrót od *concatenate*): `y <- c(x1, x2, x3)`.  
-Długość wektora $x$ sprawdzamy komendą `length(x)`.  
-Wektory można do siebie dodawać: `z <- x+y` oraz mnożyć: `z <- x*y`.   
-Mnożenie odbywa się po współrzędnych. 
-
-
-Innym typem wektora jest **wektor całkowitoliczbowy**.  
-Wektor złożony z kolejnych liczb całkowitych od $n$ do $m$ (włącznie) tworzymy następująco: `x <- n:m`.  
-Tego typu wektor możemy wykorzystać do wybrania kilku wierszy tabeli: `x <- iris[5:10, ]`.  
-Jeśli chcemy wybrać kilka fragmentów tabeli, możemy wykorzystać komendę `c()`.  
-Na przykład, `x <- iris[c(1:10, 20:30), ]` przypisze do zmiennej `x` nową ramkę danych, złożoną z wierszy o numerach od 1 do 10 oraz od 20 do 30.
-
-Bardziej złożone sekwencje liczb możemy tworzyć komendą `seq()`.  
-Jej działanie możesz sprawdzić wpisując w konsolę komendę `#help(seq)`. Wyświetli ona dokumentację funkcji `seq` w miejscu panelu z wykresami.
-
-Kolejnym ważnym typem zmiennej jest typ ***factor***, czyli tzw. typ wyliczeniowy. Jest to wektor obserwacji z ustalonego zbioru wartości, tzw. poziomów.  
-Przykładem takiej zmiennej jest piąta kolumna tabeli `iris`.   
-Jest to factor o trzech poziomach: `setosa`, `versicolor` oraz `virginica`.  
-Ważną cechą factorów jest to, że pamiętają, jakiego typu poziomy mogą w nich wystąpić.  
-Widać to na przykład po wybraniu pierwszych trzech wierszy z kolumny `Species`:  
-```{r}
-trzy_poziomy <- iris[1:3,5]
-trzy_poziomy
-```
-
-Pomimo tego, że w nowym wektorze występują jedynie gatunki `setosa`, zmienna `trzy_poziomy` nadal pamięta pierwotny zbiór gatunków
-Jak się niedługo okaże, jest to niezwykle pomocne w analizie danych.
-
-R posiada jeszcze kilka typów zmiennych, które, w zależności od potrzeb, będą pojawiać się na kolejnych zajęciach.
